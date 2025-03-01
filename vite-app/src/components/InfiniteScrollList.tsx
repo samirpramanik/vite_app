@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
+import { FixedSizeList as List, ListChildComponentProps } from "react-window";
 
 const API_URL = "https://jsonplaceholder.typicode.com/posts";
 
@@ -22,7 +23,7 @@ export const InfiniteScrollList = () => {
 
       try {
         const response = await axios.get(`${API_URL}?_page=${page}&_limit=20`);
-        console.log('URL :: ', `${API_URL}?_page=${page}&_limit=20`)
+        console.log("URL :: ", `${API_URL}?_page=${page}&_limit=20`);
         console.log("number of records fetched :: ", response.data.length);
         console.log("records fetched :: ", response.data);
         setData((prev) => [...prev, ...response.data]);
@@ -40,10 +41,10 @@ export const InfiniteScrollList = () => {
   const observer = useRef<IntersectionObserver | null>(null);
 
   const lastItemRef = useCallback(
-    (node: HTMLLIElement | null) => {
+    (node: HTMLDivElement | null) => {
       console.log("node :: ", node);
-      if (loading || !hasMore) return;  // if already loading is in progress or if no more records are present
-      if (observer.current) observer.current.disconnect();  // resetting the observer at every data load
+      if (loading || !hasMore) return; // if already loading is in progress or if no more records are present
+      if (observer.current) observer.current.disconnect(); // resetting the observer at every data load
 
       observer.current = new IntersectionObserver((entries) => {
         console.log("intersection observer entries :: ", entries);
@@ -58,27 +59,34 @@ export const InfiniteScrollList = () => {
     [loading, hasMore]
   );
 
+  const Row = ({ index, style }: ListChildComponentProps) => {
+    const item = data[index];
+
+    if (!item) return null;
+
+    return (
+      <div
+        ref={index === data.length - 1 ? lastItemRef : null} // Attaching ref to the last item
+        style={{
+          ...style,
+          marginTop: "20px",
+          borderBottom: "2px solid #ddd",
+          background: index % 2 === 0 ? "#eeeeaa" : "#fff",
+        }}
+      >
+        <h3>{item.title}</h3>
+        {item.body}
+      </div>
+    );
+  };
+
   return (
     <div>
       <h2>Infinite Scroll List</h2>
-      <ul style={{ listStyle: "none", padding: 0 }}>
-        {data.map((item, index) => (
-          <li
-            key={item.id}
-            ref={index === data.length - 1 ? lastItemRef : null}    // attaching ref to the last record
-            style={{
-              padding: "10px",
-              borderBottom: "2px solid #ddd",
-              background: index % 2 === 0 ? "#eeeeaa" : "#fff",
-            }}
-          >
-            <h3>{item.title}</h3>
-            {item.body}
-          </li>
-        ))}
-      </ul>
-      {/* {loading && <p>Loading more...</p>} */}
-      {page>=2 ? <p>Loading more...</p> : <p>Loading...</p>}
+      <List height={500} itemCount={data.length} itemSize={120} width="80vw">
+        {Row}
+      </List>
+      {/* {hasMore && (page >= 2 ? <p>Loading more...</p> : <p>Loading...</p>)} */}
     </div>
   );
 };
