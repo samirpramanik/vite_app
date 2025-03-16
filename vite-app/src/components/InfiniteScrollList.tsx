@@ -62,6 +62,10 @@ export const InfiniteScrollList = () => {
 
   const { t } = useTranslation();
 
+  const onRowClickHandler = (item: itemType) => {
+    console.log("item data :: ", item);
+  };
+
   const Row = ({ index, style }: ListChildComponentProps) => {
     const item = data[index];
 
@@ -77,7 +81,14 @@ export const InfiniteScrollList = () => {
           background: index % 2 === 0 ? "#eeeeaa" : "#fff",
         }}
       >
-        <h3>{item.title}</h3>
+        <h3
+          onClick={() => {
+            console.log(`clicked on ${item.id}`);
+            onRowClickHandler(item);
+          }}
+        >
+          {item.title}
+        </h3>
         {item.body}
       </div>
     );
