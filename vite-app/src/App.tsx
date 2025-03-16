@@ -13,7 +13,6 @@ function App() {
 
   return (
     <div>
-      {t("title")}
       <button onClick={() => changeLanguage("en")}>english</button>
       <button onClick={() => changeLanguage("ar")}>arabic</button>
       <InfiniteScrollList />
