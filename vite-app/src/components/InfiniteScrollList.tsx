@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useNavigate } from "react-router";
 import axios from "axios";
 import { FixedSizeList as List, ListChildComponentProps } from "react-window";
 import { useTranslation } from "react-i18next";
@@ -61,9 +62,11 @@ export const InfiniteScrollList = () => {
   );
 
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const onRowClickHandler = (item: itemType) => {
     console.log("item data :: ", item);
+    navigate("itemdetails", { state: item });
   };
 
   const Row = ({ index, style }: ListChildComponentProps) => {
