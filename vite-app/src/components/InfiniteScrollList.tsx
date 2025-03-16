@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import { FixedSizeList as List, ListChildComponentProps } from "react-window";
+import { useTranslation } from "react-i18next";
 
 const API_URL = "https://jsonplaceholder.typicode.com/posts";
 
@@ -59,6 +60,8 @@ export const InfiniteScrollList = () => {
     [loading, hasMore]
   );
 
+  const { t } = useTranslation();
+
   const Row = ({ index, style }: ListChildComponentProps) => {
     const item = data[index];
 
@@ -82,7 +85,7 @@ export const InfiniteScrollList = () => {
 
   return (
     <div>
-      <h2>Infinite Scroll List</h2>
+      <h2>{t("title")}</h2>
       <List height={500} itemCount={data.length} itemSize={120} width="80vw">
         {Row}
       </List>
