@@ -24,6 +24,11 @@
   align-items: flex-start
 }
 
+#detailsTitle {
+  margin-bottom: 200px;
+}
+
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);

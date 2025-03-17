@@ -63,6 +63,15 @@ export const InfiniteScrollList = () => {
 
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { i18n } = useTranslation();
+
+  const changeLanguage = (lng: string) => {
+    console.log(i18n.dir());
+    i18n.changeLanguage(lng, () => {
+      console.log("locale changed to ", lng);
+    });
+    document.body.dir = i18n.dir();
+  };
 
   const onRowClickHandler = (item: itemType) => {
     console.log("item data :: ", item);
@@ -99,6 +108,15 @@ export const InfiniteScrollList = () => {
 
   return (
     <div>
+      <div id="localeSelector">
+        <button
+          style={{ marginInlineEnd: "10px" }}
+          onClick={() => changeLanguage("en")}
+        >
+          English
+        </button>
+        <button onClick={() => changeLanguage("ar")}>Arabic</button>
+      </div>
       <h2>{t("title")}</h2>
       <List height={500} itemCount={data.length} itemSize={120} width="80vw">
         {Row}
