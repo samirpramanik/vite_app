@@ -1,5 +1,6 @@
 {
     "title": "Infinite Scroll List",
     "detailsTitle": "Item details page!",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "themeLbl": "Change Theme"
 }
