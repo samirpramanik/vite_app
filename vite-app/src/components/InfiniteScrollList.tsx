@@ -122,6 +122,7 @@ export const InfiniteScrollList = () => {
         {Row}
       </List>
       {/* {hasMore && (page >= 2 ? <p>Loading more...</p> : <p>Loading...</p>)} */}
+      {loading && <p>{t("loading")}</p>}
     </div>
   );
 };
