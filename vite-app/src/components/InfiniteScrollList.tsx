@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import { FixedSizeList as List, ListChildComponentProps } from "react-window";
 import { useTranslation } from "react-i18next";
+import { Switch } from "./Switch";
 
 const API_URL = "https://jsonplaceholder.typicode.com/posts";
 
@@ -108,6 +109,7 @@ export const InfiniteScrollList = () => {
 
   return (
     <div>
+      <Switch></Switch>
       <div id="localeSelector">
         <button
           style={{ marginInlineEnd: "10px" }}
