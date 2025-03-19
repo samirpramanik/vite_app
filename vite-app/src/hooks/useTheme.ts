@@ -16,7 +16,6 @@ export const useTheme = (initialTheme: Theme): useThemeReturn => {
 
   useEffect(() => {
     console.log("theme after change :: ", theme);
-    document.getElementById("html")?.setAttribute("data-theme", theme);
     document.body.setAttribute("data-theme", theme);
   }, [theme]);
 

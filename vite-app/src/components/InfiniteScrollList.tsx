@@ -5,6 +5,9 @@ import { FixedSizeList as List, ListChildComponentProps } from "react-window";
 import { useTranslation } from "react-i18next";
 import { Switch } from "./Switch";
 
+const styles = window.getComputedStyle(document.body);
+console.log(styles.getPropertyValue("--background-colorodd"));
+
 const API_URL = "https://jsonplaceholder.typicode.com/posts";
 
 type itemType = {
@@ -83,6 +86,11 @@ export const InfiniteScrollList = () => {
     const item = data[index];
 
     if (!item) return null;
+    const rowColor =
+      index % 2 === 0
+        ? styles.getPropertyValue("--background-coloreven")
+        : styles.getPropertyValue("--background-colorodd");
+    console.log("bg color :: ", rowColor);
 
     return (
       <div
@@ -91,7 +99,7 @@ export const InfiniteScrollList = () => {
           ...style,
           marginTop: "20px",
           borderBottom: "2px solid #ddd",
-          background: index % 2 === 0 ? "#eeeeaa" : "#fff",
+          background: rowColor,
         }}
       >
         <h3
@@ -102,7 +110,14 @@ export const InfiniteScrollList = () => {
         >
           {item.title}
         </h3>
-        {item.body}
+        <p
+          onClick={() => {
+            console.log(`clicked on ${item.id}`);
+            onRowClickHandler(item);
+          }}
+        >
+          {item.body}
+        </p>
       </div>
     );
   };
