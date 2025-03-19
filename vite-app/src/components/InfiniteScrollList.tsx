@@ -103,6 +103,9 @@ export const InfiniteScrollList = () => {
         }}
       >
         <h3
+          style={{
+            marginTop: "10px",
+          }}
           onClick={() => {
             console.log(`clicked on ${item.id}`);
             onRowClickHandler(item);
@@ -135,7 +138,7 @@ export const InfiniteScrollList = () => {
         <button onClick={() => changeLanguage("ar")}>Arabic</button>
       </div>
       <h2>{t("title")}</h2>
-      <List height={500} itemCount={data.length} itemSize={120} width="80vw">
+      <List height={460} itemCount={data.length} itemSize={120} width="80vw">
         {Row}
       </List>
       {/* {hasMore && (page >= 2 ? <p>Loading more...</p> : <p>Loading...</p>)} */}
