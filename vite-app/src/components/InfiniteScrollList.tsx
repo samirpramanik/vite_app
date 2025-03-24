@@ -154,10 +154,10 @@ export const InfiniteScrollList = () => {
       <h2>{t("title")}</h2>
       <List
         key={forceUpdateKey}
-        height={460}
+        height={600}
         itemCount={data.length}
         itemSize={120}
-        width="80vw"
+        width="80rem"
       >
         {Row}
       </List>
