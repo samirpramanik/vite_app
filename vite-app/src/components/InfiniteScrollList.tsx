@@ -4,6 +4,7 @@ import axios from "axios";
 import { FixedSizeList as List, ListChildComponentProps } from "react-window";
 import { useTranslation } from "react-i18next";
 import { Switch } from "./Switch";
+import { useSelector, UseSelector } from "react-redux";
 
 const styles = window.getComputedStyle(document.body);
 console.log(styles.getPropertyValue("--background-colorodd"));
@@ -16,11 +17,24 @@ type itemType = {
   body: string;
 };
 
+type stateType = {
+  themes: {
+    theme: string;
+  };
+};
+
 export const InfiniteScrollList = () => {
   const [data, setData] = useState<itemType[]>([]); // data from get api call(array of objects)
   const [page, setPage] = useState(1); // current page, increments after every page's last element is visible
   const [loading, setLoading] = useState(false); // data being fetched
   const [hasMore, setHasMore] = useState(true); // checks if more data is available
+
+  const theme = useSelector((state: stateType) => state.themes.theme);
+  const [forceUpdateKey, setForceUpdateKey] = useState(0);
+
+  useEffect(() => {
+    setForceUpdateKey((prev) => prev + 1); // force re-render on theme change by changing key whenever theme changes
+  }, [theme]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -138,7 +152,13 @@ export const InfiniteScrollList = () => {
         <button onClick={() => changeLanguage("ar")}>Arabic</button>
       </div>
       <h2>{t("title")}</h2>
-      <List height={460} itemCount={data.length} itemSize={120} width="80vw">
+      <List
+        key={forceUpdateKey}
+        height={460}
+        itemCount={data.length}
+        itemSize={120}
+        width="80vw"
+      >
         {Row}
       </List>
       {/* {hasMore && (page >= 2 ? <p>Loading more...</p> : <p>Loading...</p>)} */}
