@@ -4,7 +4,7 @@ import axios from "axios";
 import { FixedSizeList as List, ListChildComponentProps } from "react-window";
 import { useTranslation } from "react-i18next";
 import { Switch } from "./Switch";
-import { useSelector, UseSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const styles = window.getComputedStyle(document.body);
 console.log(styles.getPropertyValue("--background-colorodd"));
