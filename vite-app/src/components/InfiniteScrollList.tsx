@@ -36,25 +36,28 @@ export const InfiniteScrollList = () => {
     setForceUpdateKey((prev) => prev + 1); // force re-render on theme change by changing key whenever theme changes
   }, [theme]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!hasMore) return;
-      setLoading(true);
+  const fetchData = async () => {
+    if (!hasMore) return;
+    setLoading(true);
 
-      try {
-        const response = await axios.get(`${API_URL}?_page=${page}&_limit=20`);
-        console.log("URL :: ", `${API_URL}?_page=${page}&_limit=20`);
-        console.log("number of records fetched :: ", response.data.length);
-        console.log("records fetched :: ", response.data);
+    try {
+      const response = await axios.get(`${API_URL}?_page=${page}&_limit=20`);
+      console.log("URL :: ", `${API_URL}?_page=${page}&_limit=20`);
+      console.log("number of records fetched :: ", response.data.length);
+      console.log("records fetched :: ", response.data);
+      if (response.data.length) {
+        console.log("about to set data");
         setData((prev) => [...prev, ...response.data]);
-        setHasMore(response.data.length > 0); // If no data, set hasMore to false
-      } catch (err) {
-        console.error("Error fetching data:", err);
-      } finally {
-        setLoading(false);
       }
-    };
+      setHasMore(response.data.length > 0); // If no data, set hasMore to false
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, [page]);
 
@@ -104,7 +107,7 @@ export const InfiniteScrollList = () => {
       index % 2 === 0
         ? styles.getPropertyValue("--background-coloreven")
         : styles.getPropertyValue("--background-colorodd");
-    console.log("bg color :: ", rowColor);
+    //console.log("bg color :: ", rowColor);
 
     return (
       <div
@@ -153,7 +156,7 @@ export const InfiniteScrollList = () => {
       </div>
       <h2>{t("title")}</h2>
       <List
-        key={forceUpdateKey}
+        key={forceUpdateKey} // to force re-render after theme change
         height={600}
         itemCount={data.length}
         itemSize={120}

@@ -10,7 +10,6 @@ function App() {
 
   return (
     <div>
-      {/* <InfiniteScrollList /> */}
       <Routes>
         <Route path="/" element={<InfiniteScrollList />}></Route>
         <Route path="itemdetails" element={<ItemDetails />}></Route>

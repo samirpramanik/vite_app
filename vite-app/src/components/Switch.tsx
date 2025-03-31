@@ -43,5 +43,3 @@ export const Switch = () => {
     </div>
   );
 };
-
-// dispatch from here
