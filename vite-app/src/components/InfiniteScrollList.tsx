@@ -5,8 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Switch } from "./Switch";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../app/store.ts";
-import { fetchPosts } from "../features/posts/postSlice.ts";
-import { postActions } from "../features/posts/postSlice.ts";
+import { fetchPosts, postActions } from "../features/posts/postSlice.ts";
 
 const styles = window.getComputedStyle(document.body);
 console.log(styles.getPropertyValue("--background-colorodd"));
@@ -30,7 +29,7 @@ interface postsStateType {
 interface postStateType {
   page: number;
   post: itemType[];
-  error: { message: string };
+  error: string;
   loading: boolean;
   hasMore: boolean;
 }
@@ -51,7 +50,7 @@ export const InfiniteScrollList = () => {
 
   useEffect(() => {
     dispatch(fetchPosts());
-  }, [page]);
+  }, [page]); // incrementing page triggers the network call
 
   const observer = useRef<IntersectionObserver | null>(null);
 
@@ -147,9 +146,10 @@ export const InfiniteScrollList = () => {
         <button onClick={() => changeLanguage("ar")}>Arabic</button>
       </div>
       <h2>{t("title")}</h2>
+      {!loading && error ? <div>Error in fetching data : {error}</div> : null}
       <List
         key={forceUpdateKey} // to force re-render after theme change
-        height={600}
+        height={460}
         itemCount={posts.length}
         itemSize={120}
         width="80rem"
