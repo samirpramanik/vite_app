@@ -15,7 +15,7 @@ interface stateType {
   posts: {
     page: number;
     post: [];
-    error: { message: string };
+    error: string;
     loading: boolean;
     hasMore: boolean;
   };
