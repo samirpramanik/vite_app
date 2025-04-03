@@ -44,9 +44,21 @@ export const InfiniteScrollList = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [forceUpdateKey, setForceUpdateKey] = useState(0);
 
+  var filteredArray: itemType[] = posts;
+  var oddElementsArr: itemType[] = [];
+  var evenElementsArr: itemType[] = [];
+
+  for (let i = 0; i < posts.length; i++) {
+    if (i % 2 === 0) {
+      oddElementsArr.push(posts[i]);
+    } else {
+      evenElementsArr.push(posts[i]);
+    }
+  }
+
   useEffect(() => {
     setForceUpdateKey((prev) => prev + 1); // force re-render on theme change by changing key whenever theme changes
-  }, [theme]);
+  }, [theme, filteredArray]);
 
   useEffect(() => {
     dispatch(fetchPosts());
@@ -90,8 +102,12 @@ export const InfiniteScrollList = () => {
     navigate("itemdetails", { state: item });
   };
 
+  const filterPosts = (filterCriteria: string) => {
+    filteredArray = filterCriteria === "odd" ? oddElementsArr : evenElementsArr;
+  };
+
   const Row = ({ index, style }: ListChildComponentProps) => {
-    const item = posts[index];
+    const item = filteredArray[index];
 
     if (!item) return null;
     const rowColor =
@@ -119,6 +135,7 @@ export const InfiniteScrollList = () => {
             onRowClickHandler(item);
           }}
         >
+          {item.id + ". "}
           {item.title}
         </h3>
         <p
@@ -146,11 +163,20 @@ export const InfiniteScrollList = () => {
         <button onClick={() => changeLanguage("ar")}>Arabic</button>
       </div>
       <h2>{t("title")}</h2>
+      <div id="filter">
+        <button
+          style={{ marginInlineEnd: "10px" }}
+          onClick={() => filterPosts("even")}
+        >
+          Even
+        </button>
+        <button onClick={() => filterPosts("odd")}>Odd</button>
+      </div>
       {!loading && error ? <div>Error in fetching data : {error}</div> : null}
       <List
         key={forceUpdateKey} // to force re-render after theme change
         height={460}
-        itemCount={posts.length}
+        itemCount={filteredArray.length}
         itemSize={120}
         width="80rem"
       >

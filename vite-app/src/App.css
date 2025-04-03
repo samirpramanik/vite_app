@@ -21,13 +21,16 @@
 #localeSelector {
   display: flex;
   flex-direction: row;
-  align-items: flex-start
+  align-items: flex-start;
+}
+
+#filteredArray {
+  margin-top: 30px;
 }
 
 #detailsTitle {
   margin-bottom: 200px;
 }
-
 
 @keyframes logo-spin {
   from {
